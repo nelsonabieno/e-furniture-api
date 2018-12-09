@@ -6,6 +6,7 @@ class CreateCart < ActiveRecord::Migration[5.1]
       t.string :price
       t.string :total_amount
       t.string :string
+      t.timestamps
     end
   end
 end

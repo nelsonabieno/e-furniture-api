@@ -4,6 +4,7 @@ class CreateOrders < ActiveRecord::Migration[5.1]
       t.integer :transaction_id
       t.integer :order_no
       t.string :status
+      t.timestamps
     end
   end
 end

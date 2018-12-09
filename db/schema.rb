@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181205214738) do
+ActiveRecord::Schema.define(version: 20181205224740) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,8 +24,46 @@ ActiveRecord::Schema.define(version: 20181205214738) do
     t.index ["user_id"], name: "index_addresses_on_user_id"
   end
 
+  create_table "carts", force: :cascade do |t|
+    t.integer "transaction_id"
+    t.integer "qty"
+    t.string "price"
+    t.string "total_amount"
+    t.string "string"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "categories", force: :cascade do |t|
     t.string "name"
+  end
+
+  create_table "order_statuses", force: :cascade do |t|
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "transaction_id"
+    t.integer "order_no"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "payments", force: :cascade do |t|
+    t.integer "transaction_id"
+    t.string "amount"
+    t.string "pay_method"
+    t.string "payment_status"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_payments_on_user_id"
+  end
+
+  create_table "product_categories", force: :cascade do |t|
   end
 
   create_table "products", force: :cascade do |t|
@@ -70,6 +108,7 @@ ActiveRecord::Schema.define(version: 20181205214738) do
   end
 
   add_foreign_key "addresses", "users"
+  add_foreign_key "payments", "users"
   add_foreign_key "products", "users"
   add_foreign_key "shipping_details", "users"
 end

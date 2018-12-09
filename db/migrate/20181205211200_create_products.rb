@@ -13,6 +13,7 @@ class CreateProducts < ActiveRecord::Migration[5.1]
       t.string :brand
       t.string :size
       t.references :user, foreign_key: true
+      t.timestamps
     end
   end
 end

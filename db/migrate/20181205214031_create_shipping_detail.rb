@@ -9,6 +9,7 @@ class CreateShippingDetail < ActiveRecord::Migration[5.1]
       t.string :phone_no
       t.string :city
       t.references :user, foreign_key: true
+      t.timestamps
     end
   end
 end
