@@ -7,7 +7,7 @@ class UserController < ApplicationController
 
   def create
     user = User.new(user_params)
-    user.role_id = 5
+    user.role_id = 3
     user.login_status = false
 
     if user.valid?

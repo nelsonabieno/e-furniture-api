@@ -9,7 +9,7 @@ class ApplicationController < ActionController::API
   def current_user
     if auth_present?
       user = User.find(auth['user'])
-      if user && user.status
+      if user && user.login_status
         @current_user ||= user
       end
     end
@@ -22,15 +22,15 @@ class ApplicationController < ActionController::API
   private
 
   def token
-    request.env['HTTP_HTTP_AUTHORIZATION'].scan(/Bearer(.*)$/).flatten.last
+    request.env['HTTP_HTTP_HTTP_HTTP_AUTHORIZATION'].scan(/Bearer(.*)$/).flatten.last
   end
 
   def auth
-    Auth.decode(token)
+    @auth = ::Auth.new
+    @auth.decode(token)
   end
 
   def auth_present?
-    !!request.env.fetch('HTTP_HTTP_AUTHORIZATION',
-                        '').scan(/Bearer/).flatten.first
+    !!request.env.fetch('HTTP_HTTP_HTTP_HTTP_AUTHORIZATION', '').scan(/Bearer/).flatten.first
   end
 end

@@ -3,7 +3,7 @@ require 'jwt'
 class Auth < ApplicationController
   ALGORITHM = 'HS256'
 
-  def self.issue(payload)
+  def issue(payload)
     JWT.encode(
         payload,
         auth_secret,
@@ -11,14 +11,14 @@ class Auth < ApplicationController
     )
   end
 
-  def self.decode(token)
+  def decode(token)
     JWT.decode( token,
                 auth_secret,
                 true,
                 { algorithm: ALGORITHM }).first
   end
 
-  def self.auth_secret
+  def auth_secret
     ENV['AUTH_SECRET']
   end
 end
