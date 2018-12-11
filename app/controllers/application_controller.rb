@@ -26,7 +26,7 @@ class ApplicationController < ActionController::API
   end
 
   def auth
-    @auth = ::Auth.new
+    @auth = Auth::Authentication.new
     @auth.decode(token)
   end
 

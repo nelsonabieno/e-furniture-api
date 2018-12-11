@@ -2,7 +2,7 @@ class AuthenticationController < ApplicationController
   skip_before_action :authenticate, only: [:create]
 
   def initialize
-    @auth = ::Auth.new
+    @auth = Auth::Authentication.new
   end
 
   def create
