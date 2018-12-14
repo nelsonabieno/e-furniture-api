@@ -1,6 +1,6 @@
 require 'jwt'
 
-class Auth < ApplicationController
+module Authentication
   ALGORITHM = 'HS256'
 
   def issue(payload)

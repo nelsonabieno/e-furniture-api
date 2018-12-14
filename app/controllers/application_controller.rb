@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::API
+  include Authentication
+
   before_action :authenticate
   skip_before_action :authenticate, only: [:create]
 
@@ -16,21 +18,20 @@ class ApplicationController < ActionController::API
   end
 
   def authenticate
-    render json: { message: 'You have to be logged in' }, status: :unauthorized unless logged_in?
+    render json: { message: 'You have to be logged in application ', auth_guy: auth['user'], error: @current_user.errors.full_messages  }, status: :unauthorized unless logged_in?
   end
 
   private
 
   def token
-    request.env['HTTP_HTTP_HTTP_HTTP_AUTHORIZATION'].scan(/Bearer(.*)$/).flatten.last
+    request.headers['Authorization'].sub("Bearer ","")
   end
 
   def auth
-    @auth = ::Auth.new
-    @auth.decode(token)
+    decode(token)
   end
 
   def auth_present?
-    !!request.env.fetch('HTTP_HTTP_HTTP_HTTP_AUTHORIZATION', '').scan(/Bearer/).flatten.first
+    !!request.headers['Authorization'].scan(/Bearer/).flatten.first
   end
 end
