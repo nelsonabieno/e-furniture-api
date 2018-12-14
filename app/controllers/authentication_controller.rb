@@ -15,13 +15,6 @@ class AuthenticationController < ApplicationController
   end
 
   def destroy
-    # binding.pry
-    puts "###################"
-    puts @current_user
-    puts "###################"
-    # binding.pry
-    puts "###################"
-
     if @current_user
       user = set_user
       user.update({ login_status: false })

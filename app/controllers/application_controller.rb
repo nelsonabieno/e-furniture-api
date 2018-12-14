@@ -24,13 +24,7 @@ class ApplicationController < ActionController::API
   private
 
   def token
-    puts "************"
-    puts request.env
-    if Rails.env.production?
-      request.env['HTTP_HTTP_HTTP_HTTP_HTTP_AUTHORIZATION'].scan(/Bearer(.*)$/).flatten.last
-    else
-      request.env['HTTP_HTTP_HTTP_HTTP_AUTHORIZATION'].scan(/Bearer(.*)$/).flatten.last
-    end
+    request.headers['Authorization'].sub("Bearer ","")
   end
 
   def auth
@@ -38,13 +32,6 @@ class ApplicationController < ActionController::API
   end
 
   def auth_present?
-    puts "************"
-    puts request.env
-
-    if Rails.env.production?
-      !!request.env.fetch('HTTP_HTTP_HTTP_HTTP_HTTP_AUTHORIZATION', '').scan(/Bearer/).flatten.first
-    else
-      !!request.env.fetch('HTTP_HTTP_HTTP_HTTP_AUTHORIZATION', '').scan(/Bearer/).flatten.first
-    end
+    !!request.headers['Authorization'].scan(/Bearer/).flatten.first
   end
 end
