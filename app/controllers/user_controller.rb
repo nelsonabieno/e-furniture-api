@@ -11,7 +11,7 @@ class UserController < ApplicationController
     user.login_status = false
 
     if user.valid?
-      user.save!
+      user.save
       render json: { message: 'user successfully registered' }, status: :ok
     else
       render json: { errors: user.errors.full_messages }, status: :internal_server_error
