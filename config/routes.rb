@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   get '/logout' => 'authentication#destroy'
   post '/role' => 'role#create'
   root 'home#index'
+  resources :product
 end
