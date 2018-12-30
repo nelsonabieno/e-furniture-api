@@ -9,17 +9,22 @@ class AuthenticationController < ApplicationController
       jwt = issue({ user: @user.id })
       @user.update({ login_status: true })
       render json: { user: @user, jwt: jwt, message: 'You\'re in!' }
+    elsif @user.nil?
+      render json: { message: 'User does not exist' }, status: :not_found
     else
       render json: { message: 'Invalid login details', error: @user.errors.full_messages }, status: :bad_request
     end
   end
 
   def destroy
+    # binding.pry
     if @current_user
       user = set_user
       user.update({ login_status: false })
       @current_user = nil
       render json: { message: 'Thanks for using our app, good bye' }, status: :ok
+    elsif @current_user.nil?
+      render json: { message: 'User does not exist' }, status: :not_found
     else
       render json: { message: 'You have to be logged in authentication',  error: @current_user.errors.full_messages }, status: :unauthorized
     end

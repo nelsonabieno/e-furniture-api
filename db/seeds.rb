@@ -13,3 +13,10 @@ user = User.new( {
                  :email => ENV['SUPER_EMAIL']
              })
 user.save! if user.valid?
+
+OrderStatus.create([ { :status => 'processed' },
+                      { :status => 'shipped' },
+                      { :status => 'delivered' },
+                      { :status => 'processed' },
+                      { :status => 'rejected' }
+                   ])

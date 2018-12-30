@@ -1,5 +1,7 @@
 class Product < ApplicationRecord
   belongs_to :user
+  belongs_to :category
+  belongs_to :cart
   validates :name, presence:true
   validates :description, presence:true
   validates :color, presence:true

@@ -8,7 +8,10 @@ class ProductController < ApplicationController
 
   def create
     @product = Product.new(product_params)
-    if @product.save
+    category_name = Category.find_by_name(params[:category_name])
+
+    if category_name && @product.save
+      ProductCategory.create!({ :product_id => @product.id, :category_id => category_name.name })
       render json: { product: @product }, status: :ok
     else
       render json: { errors: @product.errors.full_messages }, status: :bad_request
@@ -17,7 +20,7 @@ class ProductController < ApplicationController
   end
 
   def show
-      render json: { product: @product }, status: :ok
+    render json: { product: @product }, status: :ok
   end
 
   def update
@@ -41,11 +44,10 @@ class ProductController < ApplicationController
 
   def set_product
     @product = Product.find(params[:id])
-
   end
 
   def product_params
     params.permit( :name, :description, :color, :material, :image_front, :image_back,
-                  :image_left, :image_right, :price, :brand, :size, :user_id )
+                  :image_left, :image_right, :price, :brand, :size, :user_id, :category_name )
   end
 end
