@@ -11,6 +11,7 @@ gem 'rails', '~> 5.1.6'
 gem 'pg'
 gem 'jwt'
 gem 'figaro'
+gem 'paystack'
 # Use Puma as the app server
 gem 'puma', '~> 3.7'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder

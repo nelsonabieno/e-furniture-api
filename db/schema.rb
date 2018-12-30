@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181209211014) do
+ActiveRecord::Schema.define(version: 20181226194117) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,8 @@ ActiveRecord::Schema.define(version: 20181209211014) do
     t.string "city"
     t.string "state"
     t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_addresses_on_user_id"
   end
 
@@ -29,13 +31,18 @@ ActiveRecord::Schema.define(version: 20181209211014) do
     t.integer "qty"
     t.string "price"
     t.string "total_amount"
-    t.string "string"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "users_id"
+    t.bigint "products_id"
+    t.index ["products_id"], name: "index_carts_on_products_id"
+    t.index ["users_id"], name: "index_carts_on_users_id"
   end
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "order_statuses", force: :cascade do |t|
@@ -50,6 +57,12 @@ ActiveRecord::Schema.define(version: 20181209211014) do
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "users_id"
+    t.bigint "products_id"
+    t.bigint "order_statuses_id"
+    t.index ["order_statuses_id"], name: "index_orders_on_order_statuses_id"
+    t.index ["products_id"], name: "index_orders_on_products_id"
+    t.index ["users_id"], name: "index_orders_on_users_id"
   end
 
   create_table "payments", force: :cascade do |t|
@@ -64,6 +77,10 @@ ActiveRecord::Schema.define(version: 20181209211014) do
   end
 
   create_table "product_categories", force: :cascade do |t|
+    t.bigint "product_id"
+    t.bigint "category_id"
+    t.index ["category_id"], name: "index_product_categories_on_category_id"
+    t.index ["product_id"], name: "index_product_categories_on_product_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -79,6 +96,8 @@ ActiveRecord::Schema.define(version: 20181209211014) do
     t.string "brand"
     t.string "size"
     t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_products_on_user_id"
   end
 
@@ -90,11 +109,13 @@ ActiveRecord::Schema.define(version: 20181209211014) do
     t.string "recipient_name"
     t.string "recipient_address"
     t.string "order_no"
-    t.integer "lg_id"
-    t.integer "state_id"
+    t.string "lg"
+    t.string "state"
     t.string "phone_no"
     t.string "city"
     t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_shipping_details_on_user_id"
   end
 
@@ -104,6 +125,8 @@ ActiveRecord::Schema.define(version: 20181209211014) do
     t.string "phone_no"
     t.string "email"
     t.string "profile_img"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "password_digest"
     t.boolean "login_status"
     t.bigint "role_id"
@@ -113,7 +136,14 @@ ActiveRecord::Schema.define(version: 20181209211014) do
   end
 
   add_foreign_key "addresses", "users"
+  add_foreign_key "carts", "products", column: "products_id"
+  add_foreign_key "carts", "users", column: "users_id"
+  add_foreign_key "orders", "order_statuses", column: "order_statuses_id"
+  add_foreign_key "orders", "products", column: "products_id"
+  add_foreign_key "orders", "users", column: "users_id"
   add_foreign_key "payments", "users"
+  add_foreign_key "product_categories", "categories"
+  add_foreign_key "product_categories", "products"
   add_foreign_key "products", "users"
   add_foreign_key "shipping_details", "users"
   add_foreign_key "users", "roles"
