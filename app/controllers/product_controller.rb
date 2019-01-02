@@ -11,7 +11,7 @@ class ProductController < ApplicationController
     category_name = Category.find_by_name(params[:category_name])
 
     if category_name && @product.save
-      ProductCategory.create!({ :product_id => @product.id, :category_id => category_name.name })
+      ProductCategory.create!({ :product_id => @product.id, :category_id => category_name.id })
       render json: { product: @product }, status: :ok
     else
       render json: { errors: @product.errors.full_messages }, status: :bad_request
@@ -48,6 +48,7 @@ class ProductController < ApplicationController
 
   def product_params
     params.permit( :name, :description, :color, :material, :image_front, :image_back,
-                  :image_left, :image_right, :price, :brand, :size, :user_id, :category_name )
+                  :image_left, :image_right, :price, :brand, :size, :user_id )
   end
+
 end

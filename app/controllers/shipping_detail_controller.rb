@@ -11,14 +11,14 @@ class ShippingDetailController < ApplicationController
 
     if shipping_detail.valid?
       shipping_detail.save
-      render json: { message: 'shipping detail successfully registered' }, status: :ok
+      render json: { shipping_detail: shipping_detail, message: 'shipping detail successfully registered' }, status: :ok
     else
       render json: { errors: shipping_detail.errors.full_messages }, status: :internal_server_error
     end
   end
 
   def show
-    render json: { product: @shipping_detail }, status: :ok
+    render json: { shipping_detail: @shipping_detail }, status: :ok
   end
 
   def edit
@@ -48,8 +48,8 @@ class ShippingDetailController < ApplicationController
         :recipient_name,
         :recipient_address,
         :order_no,
-        :lg_id,
-        :state_id,
+        :lg,
+        :state,
         :phone_no,
         :city,
         :user_id
@@ -57,7 +57,7 @@ class ShippingDetailController < ApplicationController
   end
 
   def find_shipping_details
-    @shipping_detail = ShippingDetail.find(params(:id))
+    @shipping_detail = ShippingDetail.find(params[:id])
   end
 
 end
