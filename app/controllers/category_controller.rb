@@ -17,7 +17,7 @@ class CategoryController < ApplicationController
     end
   end
 
-  def edit
+  def show
     render json: { category: @category }, status: :ok
   end
 
@@ -46,7 +46,7 @@ class CategoryController < ApplicationController
   end
 
   def find_category
-    @category = Category.find(params(:id))
+    @category = Category.find(params[:id])
   end
 
 end

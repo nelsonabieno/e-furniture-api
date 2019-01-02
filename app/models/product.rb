@@ -1,7 +1,8 @@
 class Product < ApplicationRecord
   belongs_to :user
-  belongs_to :category
-  belongs_to :cart
+  # belongs_to :category
+  # belongs_to :cart
+  # belongs_to :product_categories, dependent: :delete_all
   validates :name, presence:true
   validates :description, presence:true
   validates :color, presence:true

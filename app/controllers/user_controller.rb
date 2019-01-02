@@ -1,5 +1,4 @@
 class UserController < ApplicationController
-  before_action :user_params
   before_action :set_user, only: [:destroy, :show, :edit, :update]
 
   def index
