@@ -12,13 +12,20 @@ class UserController < ApplicationController
     user.role_id = 3
     user.login_status = false
 
-    if user.valid? && user.save
-      last_user = User.last
-      address.user_id = last_user.id
-      address.save
-      render json: { message: 'user successfully registered' }, status: :ok
+    user_email = user.email
+    user_found = user_exists? user_email
+
+    if user_found
+      render json: { message: 'Ops! This email already exists' }, status: :conflict
     else
-      render json: { errors: user.errors.full_messages }, status: :internal_server_error
+      if user.valid? && user.save
+        last_user = User.last
+        address.user_id = last_user.id
+        address.save
+        render json: { message: 'user successfully registered' }, status: :ok
+      else
+        render json: { errors: user.errors.full_messages }, status: :internal_server_error
+      end
     end
   end
 
@@ -67,5 +74,9 @@ class UserController < ApplicationController
 
   def set_user
     @user = User.find(params[:id])
+  end
+
+  def user_exists? user_email
+    User.find_by_email("#{user_email}")
   end
 end
