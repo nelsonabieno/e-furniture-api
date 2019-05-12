@@ -3,17 +3,24 @@ class AuthenticationController < ApplicationController
 
 
   def create
-    @user = User.find_by(email: auth_params[:email])
-    if @user
-      @user.authenticate(auth_params[:password])
-      jwt = issue({ user: @user.id })
-      @user.update({ login_status: true })
-      render json: { user: @user, jwt: jwt, message: 'You\'re in!' }
-    elsif @user.nil?
-      render json: { message: 'User does not exist' }, status: :not_found
-    else
-      render json: { message: 'Invalid login details', error: @user.errors.full_messages }, status: :bad_request
+    begin
+      @user = User.find_by(email: auth_params[:email])
+      password =  BCrypt::Password.new(@user.try(:password_digest))
+
+      if password == auth_params[:password]
+        @user.authenticate(auth_params[:password])
+        jwt = issue({ user: @user.id })
+        @user.update({ login_status: true })
+        render json: { user: @user, jwt: jwt, message: 'You\'re in!' }
+      elsif @user.nil?
+        render json: { message: 'User does not exist' }, status: :not_found
+      else
+        render json: { message: 'Invalid login details', error: @user.errors.full_messages }, status: :bad_request
+      end
+    rescue
+      render json: { message: 'Authentication failed! Please try again!'}, status: :unauthorized
     end
+
   end
 
   def destroy

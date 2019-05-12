@@ -18,7 +18,7 @@ class UserController < ApplicationController
     if user_found
       render json: { message: 'Ops! This email already exists' }, status: :conflict
     else
-      if user.valid? && user.save
+      if user.valid? && user.save!
         last_user = User.last
         address.user_id = last_user.id
         address.save
