@@ -9,16 +9,21 @@ class ApplicationController < ActionController::API
   end
 
   def current_user
-    if auth_present?
-      user = User.find(auth['user'])
-      if user && user.login_status
-        @current_user ||= user
+    begin
+      if auth_present? && auth['user'].present?
+        user = User.find(auth['user'])
+        if user && user.login_status
+          @current_user ||= user
+        end
       end
+    rescue
+      render json: {message: 'Sorry, we couldn\'t copnfirm you as a user, pls contact the admin' }, status: :unauthorized
     end
   end
 
   def authenticate
-    render json: { message: 'You have to be logged in application ', auth_guy: auth['user'], error: @current_user.errors.full_messages  }, status: :unauthorized unless logged_in?
+    render json: { message: 'You have to be logged in application ', auth_guy: auth['user'] }, status: :unauthorized unless logged_in?
+    return
   end
 
   private

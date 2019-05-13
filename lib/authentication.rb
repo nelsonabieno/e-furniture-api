@@ -5,17 +5,21 @@ module Authentication
 
   def issue(payload)
     JWT.encode(
-        payload,
+        payload.merge(exp: 1440.minutes.from_now.to_i),
         auth_secret,
         ALGORITHM
     )
   end
 
   def decode(token)
-    JWT.decode( token,
+    begin
+      JWT.decode( token,
                 auth_secret,
                 true,
                 { algorithm: ALGORITHM }).first
+    rescue
+      render json: { message: 'Invalid Token Error'}, status: :unauthorized
+    end
   end
 
   def auth_secret
