@@ -14,4 +14,8 @@ class Product < ApplicationRecord
   validates :price, presence:true
   validates :brand, presence:true
   validates :size, presence:true
+  mount_uploader :image_back, ProductUploader
+  mount_uploader :image_front, ProductUploader
+  mount_uploader :image_left, ProductUploader
+  mount_uploader :image_right, ProductUploader
 end

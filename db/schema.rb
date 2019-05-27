@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190101232519) do
+ActiveRecord::Schema.define(version: 20190526211257) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -131,6 +131,7 @@ ActiveRecord::Schema.define(version: 20190101232519) do
     t.string "password_digest"
     t.boolean "login_status"
     t.bigint "role_id"
+    t.string "avatar"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["phone_no"], name: "index_users_on_phone_no", unique: true
     t.index ["role_id"], name: "index_users_on_role_id"
