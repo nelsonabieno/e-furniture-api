@@ -1,5 +1,5 @@
 class ProductController < ApplicationController
-  skip_before_action :authenticate, only: [:index]
+  skip_before_action :authenticate, only: [:index, :show]
   before_action :set_product, only: [:show, :update, :destroy]
 
   def index
@@ -9,7 +9,7 @@ class ProductController < ApplicationController
 
   def create
     @product = Product.new(product_params)
-    category_name = Category.find_by_name(params[:category_name])
+    category_name = Category.find_by_name(params[:name])
 
     if category_name && @product.save
       ProductCategory.create!({ :product_id => @product.id, :category_id => category_name.id })

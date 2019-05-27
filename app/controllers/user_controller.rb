@@ -22,7 +22,7 @@ class UserController < ApplicationController
         last_user = User.last
         address.user_id = last_user.id
         address.save
-        render json: { message: 'user successfully registered' }, status: :ok
+        render json: { result: true, message: 'user successfully registered' }, status: :created
       else
         render json: { errors: user.errors.full_messages }, status: :internal_server_error
       end
@@ -59,7 +59,8 @@ class UserController < ApplicationController
         :email,
         :password,
         :login_status,
-        :profile_img
+        :profile_img,
+        :avatar
     )
   end
 

@@ -9,5 +9,6 @@ class User < ApplicationRecord
   validates :phone_no, presence:true, uniqueness:true
   validates :email, presence:true, uniqueness:true
   validates :password, presence:true, length: { minimum: 5 }
+  mount_uploader :avatar, AvatarUploader
 
 end

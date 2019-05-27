@@ -20,6 +20,9 @@ gem 'puma', '~> 3.7'
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
+gem 'carrierwave'
+gem 'cloudinary'
+
 
 
 # Use Capistrano for deployment
